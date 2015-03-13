@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="STDOUT">
+      <PatternLayout pattern="%msg%n"/>
+    </Console>
+
+    <GoogleCloudLogging name="gcloud_logging_not_from_gce"
+                        projectId="gcloud-projectId"
+                        zone="europe-west1-d"
+                        ignoreExceptions="false"
+                        virtualMachineId="0">
+      <PatternLayout pattern="%msg%n"/>
+      <GoogleCloudCredentials
+          serviceAccountId="serviceId@developer.gserviceaccount.com"
+          serviceAccountPrivateKeyP12FileName="file.p12"/>
+    </GoogleCloudLogging>
+
+    <GoogleCloudLogging name="gcloud_logging_from_gce"
+                        ignoreExceptions="false">
+      <PatternLayout pattern="%msg%n"/>
+    </GoogleCloudLogging>
+  </Appenders>
+  <Loggers>
+    <Logger name="gcloud_logging_not_from_gce"
+            level="trace"
+            additivity="false"
+            includeLocation="false">
+      <AppenderRef ref="gcloud_logging_not_from_gce"/>
+    </Logger>
+    <Logger name="gcloud_logging_from_gce"
+            level="trace"
+            additivity="false"
+            includeLocation="false">
+      <AppenderRef ref="gcloud_logging_from_gce"/>
+    </Logger>
+    <Root level="debug"
+          includeLocation="false">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>
